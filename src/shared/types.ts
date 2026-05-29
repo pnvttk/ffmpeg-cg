@@ -1,0 +1,21 @@
+// Timestamp pair parsed from notes
+export interface TimestampClip {
+  start: string;   // HH:MM:SS
+  end: string;     // HH:MM:SS
+  label?: string;  // optional comment after the timestamp range
+}
+
+export interface ClipOptions {
+  prefix: string;
+  includeStart: boolean;
+  includeEnd: boolean;
+  useIndex: boolean;
+  copyMode: 'copy' | 'encode';
+  mapAll: boolean;
+}
+
+export interface FFmpegConfig {
+  inputFile: string;
+  clips: TimestampClip[];
+  options: ClipOptions;
+}
