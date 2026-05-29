@@ -47,7 +47,7 @@ export const TimestampParser = ({
         className="field-textarea"
         value={value}
         onChange={handleChange}
-        placeholder={`00:04:40-00:06:10\tsome comment here\n00:14:00-00:19:40\ttell fuwawa\n00:38:00-00:40:36\tfind sheep nearby\n\nYou can paste raw notes — extra text is ignored.`}
+        placeholder={`00:04:40-00:06:10\tsome comment here\n\nYou can paste raw notes — extra text is ignored.`}
         rows={8}
         spellCheck={false}
       />
