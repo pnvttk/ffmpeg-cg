@@ -59,9 +59,12 @@ export function buildFFmpegCommand(config: FFmpegConfig): string {
 
   const parts: string[] = [`ffmpeg -i ${inputFile}`];
 
+  const defaultPrefix = inputFile.split('.').slice(0, -1).join('.') || inputFile;
+  const activePrefix = options.prefix || defaultPrefix;
+
   clips.forEach((clip, i) => {
     const outName = buildOutputName(
-      options.prefix,
+      activePrefix,
       clip.start,
       clip.end,
       ext,

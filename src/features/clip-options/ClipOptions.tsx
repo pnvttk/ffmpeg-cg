@@ -2,13 +2,16 @@ import type { ClipOptions } from '../../shared/types';
 import { Checkbox } from '../../shared/ui/Checkbox';
 
 interface ClipOptionsProps {
+  inputFile?: string;
   options: ClipOptions;
   onChange: (opts: ClipOptions) => void;
 }
 
-export const ClipOptionsPanel = ({ options, onChange }: ClipOptionsProps) => {
+export const ClipOptionsPanel = ({ inputFile = '', options, onChange }: ClipOptionsProps) => {
   const set = <K extends keyof ClipOptions>(key: K, val: ClipOptions[K]) =>
     onChange({ ...options, [key]: val });
+    
+  const defaultPrefix = inputFile ? inputFile.split('.').slice(0, -1).join('.') || inputFile : 'clip';
 
   return (
     <div className="glass-card" style={{ padding: '20px 24px' }}>
@@ -34,7 +37,7 @@ export const ClipOptionsPanel = ({ options, onChange }: ClipOptionsProps) => {
           placeholder="raw"
         />
         <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: 6 }}>
-          Prepended to every output filename: <code style={{ color: 'var(--accent)' }}>{options.prefix || 'clip'}_00-04-40-00-06-10.mkv</code>
+          Prepended to every output filename: <code style={{ color: 'var(--accent)' }}>{options.prefix || defaultPrefix}_00-04-40-00-06-10.mkv</code>
         </p>
       </div>
 

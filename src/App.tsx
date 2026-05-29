@@ -6,7 +6,7 @@ import { ClipOptionsPanel } from './features/clip-options/ClipOptions';
 import { CommandOutput } from './features/command-output/CommandOutput';
 
 const DEFAULT_OPTIONS: ClipOptions = {
-  prefix: 'raw',
+  prefix: '',
   includeStart: true,
   includeEnd: true,
   useIndex: false,
@@ -109,7 +109,7 @@ function App() {
               onChange={setTimestampText}
               onClipsParsed={setClips}
             />
-            <ClipOptionsPanel options={options} onChange={setOptions} />
+            <ClipOptionsPanel inputFile={inputFile} options={options} onChange={setOptions} />
           </div>
 
           {/* Right column — sticky */}
