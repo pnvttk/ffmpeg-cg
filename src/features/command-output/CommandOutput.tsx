@@ -63,14 +63,15 @@ export const CommandOutput = ({ config }: CommandOutputProps) => {
 
   const handleCopy = async () => {
     if (!command) return;
+    const singleLineCommand = command.replace(/\\\n\s*/g, '');
     try {
-      await navigator.clipboard.writeText(command);
+      await navigator.clipboard.writeText(singleLineCommand);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // fallback
       const ta = document.createElement('textarea');
-      ta.value = command;
+      ta.value = singleLineCommand;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand('copy');
