@@ -1,6 +1,6 @@
 import { useState, useMemo, type JSX } from 'react';
 import type { FFmpegConfig } from '../../shared/types';
-import { buildFFmpegCommand } from '../../shared/utils/ffmpegBuilder';
+import { buildFFmpegCommand, buildOutputName } from '../../shared/utils/ffmpegBuilder';
 
 interface CommandOutputProps {
   config: FFmpegConfig;
@@ -176,10 +176,11 @@ export const CommandOutput = ({ config }: CommandOutputProps) => {
           <div style={{ marginTop: 20 }}>
             <p className="field-label" style={{ marginBottom: 10 }}>Output files ({clipCount})</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {config.clips.map((_, i) => {
-                // Re-derive output name by parsing the command
-                const lines = command.split('\\\n').slice(1);
-                const outFile = lines[i]?.trim().split(' ').pop() ?? '';
+              {config.clips.map((clip, i) => {
+                const ext = config.inputFile.split('.').pop() ?? 'mkv';
+                const defaultPrefix = config.inputFile.split('.').slice(0, -1).join('.') || config.inputFile;
+                const activePrefix = config.options.prefix || defaultPrefix;
+                const outFile = buildOutputName(activePrefix, clip.start, clip.end, ext, i, config.options);
                 return (
                   <div
                     key={i}

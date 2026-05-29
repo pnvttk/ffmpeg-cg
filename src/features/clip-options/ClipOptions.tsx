@@ -133,6 +133,29 @@ export const ClipOptionsPanel = ({ inputFile = '', options, onChange }: ClipOpti
 
       <div className="glow-divider" />
 
+      {/* Command Structure */}
+      <div style={{ marginBottom: 20 }}>
+        <p className="field-label" style={{ marginBottom: 12 }}>Command Structure</p>
+        <div className="radio-group">
+          <button
+            className={`radio-btn ${options.commandStyle === 'multi' ? 'active' : ''}`}
+            onClick={() => set('commandStyle', 'multi')}
+            title="Generate separate commands for each clip"
+          >
+            Multiple Commands
+          </button>
+          <button
+            className={`radio-btn ${options.commandStyle === 'single' ? 'active' : ''}`}
+            onClick={() => set('commandStyle', 'single')}
+            title="Generate one long command for all clips"
+          >
+            Single Command
+          </button>
+        </div>
+      </div>
+
+      <div className="glow-divider" />
+
       {/* Map streams */}
       <div>
         <p className="field-label" style={{ marginBottom: 12 }}>Stream mapping</p>

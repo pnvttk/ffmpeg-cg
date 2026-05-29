@@ -13,6 +13,7 @@ const DEFAULT_OPTIONS: ClipOptions = {
   timeFormat: 'HHMMSS',
   copyMode: 'copy',
   mapAll: true,
+  commandStyle: 'multi',
 };
 
 function App() {

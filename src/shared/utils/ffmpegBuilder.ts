@@ -22,7 +22,7 @@ export function computeDuration(start: string, end: string): string {
 }
 
 /** Build an output filename for a single clip */
-function buildOutputName(
+export function buildOutputName(
   prefix: string,
   start: string,
   end: string,
@@ -53,28 +53,29 @@ export function buildFFmpegCommand(config: FFmpegConfig): string {
   const ext = inputFile.split('.').pop() ?? 'mkv';
   const codecArgs =
     options.copyMode === 'copy'
-      ? '-c copy'
-      : '-c:v libx264 -c:a aac';
+      ? '-c copy -avoid_negative_ts make_zero'
+      : '-c:v libx264 -crf 18 -preset fast -c:a aac -b:a 192k';
   const mapFlag = options.mapAll ? '-map 0 ' : '';
-
-  const parts: string[] = [`ffmpeg -i ${inputFile}`];
 
   const defaultPrefix = inputFile.split('.').slice(0, -1).join('.') || inputFile;
   const activePrefix = options.prefix || defaultPrefix;
 
-  clips.forEach((clip, i) => {
-    const outName = buildOutputName(
-      activePrefix,
-      clip.start,
-      clip.end,
-      ext,
-      i,
-      options
-    );
-    parts.push(`${mapFlag}-ss ${clip.start} -to ${clip.end} ${codecArgs} ${outName}`);
-  });
+  if (options.commandStyle === 'single') {
+    const parts: string[] = [`ffmpeg -i ${inputFile}`];
+    clips.forEach((clip, i) => {
+      const outName = buildOutputName(activePrefix, clip.start, clip.end, ext, i, options);
+      parts.push(`${mapFlag}-ss ${clip.start} -to ${clip.end} ${codecArgs} ${outName}`);
+    });
+    return parts.join(' \\\n  ');
+  }
 
-  return parts.join(' \\\n  ');
+  // Multi-command mode
+  const commands = clips.map((clip, i) => {
+    const outName = buildOutputName(activePrefix, clip.start, clip.end, ext, i, options);
+    return `ffmpeg -i ${inputFile} ${mapFlag}-ss ${clip.start} -to ${clip.end} ${codecArgs} ${outName}`;
+  });
+  
+  return commands.join('\n');
 }
 
 /** Parse raw textarea text → array of TimestampClip */

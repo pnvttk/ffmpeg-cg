@@ -13,6 +13,7 @@ export interface ClipOptions {
   timeFormat: 'HHMMSS' | 'HH-MM-SS' | 'HH_MM_SS';
   copyMode: 'copy' | 'encode';
   mapAll: boolean;
+  commandStyle: 'single' | 'multi';
 }
 
 export interface FFmpegConfig {
