@@ -15,7 +15,9 @@ const DEFAULT_OPTIONS: ClipOptions = {
 };
 
 function App() {
-  const [inputFile, setInputFile] = useState('');
+  const [inputFile, setInputFile] = useState(() => {
+    return localStorage.getItem('yt-dlp-cg:output-name') || '';
+  });
   const [timestampText, setTimestampText] = useState('');
   const [clips, setClips] = useState<TimestampClip[]>([]);
   const [options, setOptions] = useState<ClipOptions>(DEFAULT_OPTIONS);
