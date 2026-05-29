@@ -10,6 +10,7 @@ export interface ClipOptions {
   includeStart: boolean;
   includeEnd: boolean;
   useIndex: boolean;
+  timeFormat: 'HHMMSS' | 'HH-MM-SS' | 'HH_MM_SS';
   copyMode: 'copy' | 'encode';
   mapAll: boolean;
 }

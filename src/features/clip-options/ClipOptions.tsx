@@ -59,15 +59,41 @@ export const ClipOptionsPanel = ({ options, onChange }: ClipOptionsProps) => {
               checked={options.includeStart}
               onChange={(v) => set('includeStart', v)}
               label="Include start time"
-              hint="HH-MM-SS"
+              hint={options.timeFormat}
             />
             <Checkbox
               id="opt-include-end"
               checked={options.includeEnd}
               onChange={(v) => set('includeEnd', v)}
               label="Include end time"
-              hint="HH-MM-SS"
+              hint={options.timeFormat}
             />
+
+            {(options.includeStart || options.includeEnd) && (
+              <div style={{ marginTop: 16 }}>
+                <p className="field-label" style={{ marginBottom: 10, fontSize: 11 }}>Timestamp style</p>
+                <div className="radio-group">
+                  <button
+                    className={`radio-btn ${options.timeFormat === 'HHMMSS' ? 'active' : ''}`}
+                    onClick={() => set('timeFormat', 'HHMMSS')}
+                  >
+                    HHMMSS
+                  </button>
+                  <button
+                    className={`radio-btn ${options.timeFormat === 'HH-MM-SS' ? 'active' : ''}`}
+                    onClick={() => set('timeFormat', 'HH-MM-SS')}
+                  >
+                    HH-MM-SS
+                  </button>
+                  <button
+                    className={`radio-btn ${options.timeFormat === 'HH_MM_SS' ? 'active' : ''}`}
+                    onClick={() => set('timeFormat', 'HH_MM_SS')}
+                  >
+                    HH_MM_SS
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

@@ -1,7 +1,9 @@
 import type { TimestampClip, ClipOptions, FFmpegConfig } from '../types';
 
-/** Convert HH:MM:SS → HH-MM-SS (for filenames) */
-export function timeToFilename(time: string): string {
+/** Convert HH:MM:SS → requested format (for filenames) */
+export function timeToFilename(time: string, format: 'HHMMSS' | 'HH-MM-SS' | 'HH_MM_SS'): string {
+  if (format === 'HHMMSS') return time.replace(/:/g, '');
+  if (format === 'HH_MM_SS') return time.replace(/:/g, '_');
   return time.replace(/:/g, '-');
 }
 
@@ -35,8 +37,8 @@ function buildOutputName(
     parts.push(String(index + 1).padStart(2, '0'));
   } else {
     const segments: string[] = [];
-    if (options.includeStart) segments.push(timeToFilename(start));
-    if (options.includeEnd) segments.push(timeToFilename(end));
+    if (options.includeStart) segments.push(timeToFilename(start, options.timeFormat));
+    if (options.includeEnd) segments.push(timeToFilename(end, options.timeFormat));
     if (segments.length > 0) parts.push(segments.join('-'));
   }
 

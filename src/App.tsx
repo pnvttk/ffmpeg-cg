@@ -10,6 +10,7 @@ const DEFAULT_OPTIONS: ClipOptions = {
   includeStart: true,
   includeEnd: true,
   useIndex: false,
+  timeFormat: 'HHMMSS',
   copyMode: 'copy',
   mapAll: true,
 };
